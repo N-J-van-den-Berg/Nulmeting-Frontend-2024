@@ -12,11 +12,11 @@
 </template>
 
 <script setup lang="ts">
-  import { useTodoTableStore } from '@/stores/todoStore';
+import { useTodoTableStore } from '@/stores/todoStore';
 
-  const todoTableStore = useTodoTableStore();
+const todoTableStore = useTodoTableStore();
 
-  function getAddTodoListItem(): void { 
-    todoTableStore.getItem();
-  }
+function getAddTodoListItem(): void {
+  todoTableStore.getItem();
+}
 </script>

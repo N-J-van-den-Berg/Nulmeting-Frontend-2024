@@ -9,7 +9,6 @@ interface todoItems {
 }
 
 export const useTodoTableStore = defineStore('TableStoreList', () => {
-
     let config = {
         method: 'get',
         maxBodyLength: Infinity,
@@ -31,8 +30,11 @@ export const useTodoTableStore = defineStore('TableStoreList', () => {
                     dateTime: new Date(todoResponse.dueDateTime),
                     description: todoResponse.description
                 } 
-            console.log(JSON.stringify(response.data));
-            todoTable.push(newItem);
+                const uniekQuestionmark = todoTable.filter((todoItem) => todoItem.id === newItem.id);
+                if (uniekQuestionmark.length != 1) {
+                    todoTable.push(newItem);
+                    alert("Opgehaalde informatie zat nog niet in de tabel, die word nu toegevoegd!"); 
+                }
             })
             .catch((error) => {
             console.log(error);
