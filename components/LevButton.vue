@@ -1,6 +1,7 @@
 <template>
-  <button @click="$emit('clicked')">
-    <slot></slot>
+  <button>
+    <slot>Create
+    </slot>
   </button>
 </template>
 <style lang="scss" scoped>
