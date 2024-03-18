@@ -10,7 +10,7 @@ interface todoItems {
 
 export const useTodoTableStore = defineStore('TableStoreList', () => {
     let config = {
-        method: 'get',
+        method: todoAPI.apiMethod,
         maxBodyLength: Infinity,
         url: todoAPI.apiUrl,
         headers: { 
@@ -18,10 +18,10 @@ export const useTodoTableStore = defineStore('TableStoreList', () => {
         }
     };
 
-    const todoTable = reactive([] as todoItem[]);
+    const todoTable = reactive([] as todoItems[]);
 
-    const getItem = (): void => {
-        axios.request(config)
+    const getItem = async (): Promise<void> => {
+        await axios.request(config)
             .then((response) => {
                 const todoResponse = response.data.todo;
                 const newItem: todoItems = { 
@@ -31,9 +31,15 @@ export const useTodoTableStore = defineStore('TableStoreList', () => {
                     description: todoResponse.description
                 } 
                 const uniekQuestionmark = todoTable.filter((todoItem) => todoItem.id === newItem.id);
-                if (uniekQuestionmark.length != 1) {
+                if (uniekQuestionmark.length == 0) {
                     todoTable.push(newItem);
-                    alert("Opgehaalde informatie zat nog niet in de tabel, die word nu toegevoegd!"); 
+                    console.log("Opgehaalde informatie zat nog niet in de tabel, die word nu toegevoegd!");
+                    return;
+                }
+                
+                if (uniekQuestionmark.length != 0 ) {
+                    console.error("Data bevindt zich al in tabel, Controleer de data integriteit!");
+                    return;
                 }
             })
             .catch((error) => {
